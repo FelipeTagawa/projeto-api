@@ -1,6 +1,7 @@
 package br.com.felipe.projetoApi.dto;
 
 import br.com.felipe.projetoApi.entity.UsuarioEntity;
+import br.com.felipe.projetoApi.entity.enums.TipoSituacaoUsuario;
 import jakarta.persistence.Column;
 import org.springframework.beans.BeanUtils;
 
@@ -10,6 +11,7 @@ public class UsuarioDTO {
     private String login;
     private String senha;
     private String email;
+    private TipoSituacaoUsuario situacao;
 
     public UsuarioDTO(UsuarioEntity usuario){
         BeanUtils.copyProperties(usuario, this);
@@ -57,5 +59,13 @@ public class UsuarioDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TipoSituacaoUsuario getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(TipoSituacaoUsuario situacao) {
+        this.situacao = situacao;
     }
 }

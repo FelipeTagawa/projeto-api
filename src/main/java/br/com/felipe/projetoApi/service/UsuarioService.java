@@ -2,6 +2,7 @@ package br.com.felipe.projetoApi.service;
 
 import br.com.felipe.projetoApi.dto.UsuarioDTO;
 import br.com.felipe.projetoApi.entity.UsuarioEntity;
+import br.com.felipe.projetoApi.entity.enums.TipoSituacaoUsuario;
 import br.com.felipe.projetoApi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,15 @@ public class UsuarioService {
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
         usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuarioRepository.save(usuarioEntity);
+    }
+
+    public void inserirNovoUsuario(UsuarioDTO usuario){
+        UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        usuarioEntity.setSituacao(TipoSituacaoUsuario.PENDENTE);
+        usuarioEntity.setId(null);
+        usuarioRepository.save(usuarioEntity);
+        //TODO - enviar email para verificar a conta
     }
 
     public UsuarioDTO alterar(UsuarioDTO usuario){
