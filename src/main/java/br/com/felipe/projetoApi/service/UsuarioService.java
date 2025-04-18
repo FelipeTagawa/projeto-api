@@ -4,6 +4,7 @@ import br.com.felipe.projetoApi.dto.UsuarioDTO;
 import br.com.felipe.projetoApi.entity.UsuarioEntity;
 import br.com.felipe.projetoApi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -11,7 +12,10 @@ import java.util.List;
 public class UsuarioService {
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<UsuarioDTO> listarTodos(){
         List<UsuarioEntity> usuarios = usuarioRepository.findAll();
@@ -21,11 +25,13 @@ public class UsuarioService {
     //controller vai mandar um dto e aqui estamos convertendo em entity
     public void inserir(UsuarioDTO usuario){
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuarioRepository.save(usuarioEntity);
     }
 
     public UsuarioDTO alterar(UsuarioDTO usuario){
         UsuarioEntity usuarioEntity = new UsuarioEntity(usuario);
+        usuarioEntity.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return new UsuarioDTO(usuarioRepository.save(usuarioEntity));
     }
 
